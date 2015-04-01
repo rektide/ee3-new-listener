@@ -2,21 +2,21 @@ var mixMaster = require('mix-master')
 
 module.exports= function(eventEmitter){
 	function emittingOn(name, listener){
-		arguments.callee._get.call(this).call(this, name, listener)
+		arguments.callee._get().call(this, name, listener)
 		this.emit('newListener', name, listener)
 	}
 	mixMaster(eventEmitter, 'on', emittingOn)
 	mixMaster(eventEmitter, 'addListener', emittingOn)
 
 	function emittingOnce(name, listener){
-		arguments.callee._get.call(this).call(this, name, listener)
+		arguments.callee._get().call(this, name, listener)
 		this.emit('newListener', name, listener)
 	}
 	mixMaster(eventEmitter, 'once', emittingOnce)
 
 	function emittingRemoveListener(name, listener){
 		var previous = this._events[name]
-		arguments.callee._get.call(this).call(this, name, listener)
+		arguments.callee._get().call(this, name, listener)
 		if(this._events[name] !== previous){
 			this.emit('removeListener', name, listener)
 		}
@@ -40,7 +40,7 @@ module.exports= function(eventEmitter){
 				}
 			}
 		}
-		arguments.callee._get.call(this).call(this, name, listener)
+		arguments.callee._get().call(this, name, listener)
 	}
 	mixMaster(eventEmitter, 'removeAllListeners', emittingRemoveAllListeners)
 }
